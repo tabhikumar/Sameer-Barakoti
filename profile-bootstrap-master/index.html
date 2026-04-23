@@ -1528,6 +1528,32 @@
       </div>
     </div>
 
+
+    <!-- Chat Widget -->
+<div id="chatWidget">
+  <div class="chat-header">
+    <div class="chat-user">
+      <img src="img/profile.png" />
+      <span>Sameer Barakoti</span>
+    </div>
+    <span id="chatClose">&times;</span>
+  </div>
+
+  <div class="chat-body">
+    <div class="chat-message bot">
+      Hey! I'm Sameer Barakoti. Let's kick things off. <br />
+      Tell me, are we on a house hunt or preparing for a sale?
+    </div>
+  </div>
+
+  <div class="chat-footer">
+    <input type="text" id="chatInput" placeholder="Type a message..." />
+    <button id="sendBtn">&#10148;</button>
+  </div>
+</div>
+
+<!-- Chat Toggle Button -->
+<button id="chatToggle">💬</button>
     <!-- Global javascript -->
     <script src="js/jquery/jquery.min.js"></script>
     <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
@@ -1538,6 +1564,36 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script src="js/custom.js"></script>
+    <script>
+        // Toggle Chat
+$("#chatToggle").click(function () {
+  $("#chatWidget").fadeToggle();
+});
+
+$("#chatClose").click(function () {
+  $("#chatWidget").fadeOut();
+});
+
+// Send Message
+$("#sendBtn").click(function () {
+  let message = $("#chatInput").val();
+  if (message.trim() === "") return;
+
+  $(".chat-body").append(
+    '<div class="chat-message user">' + message + "</div>"
+  );
+
+  $("#chatInput").val("");
+
+  // Fake bot reply
+  setTimeout(() => {
+    $(".chat-body").append(
+      '<div class="chat-message bot">Thanks! I will help you with that 😊</div>'
+    );
+    $(".chat-body").scrollTop($(".chat-body")[0].scrollHeight);
+  }, 1000);
+});
+    </script>
     <script>
      var swiper = new Swiper(".mySwiper", {
     slidesPerView: 1,
