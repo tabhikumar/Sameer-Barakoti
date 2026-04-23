@@ -608,6 +608,13 @@ box-shadow: none !important;
     outline: none;
     box-shadow: none;
 }
+#chatToggle:focus{
+    outline: none;
+    box-shadow: none;
+}
+#chatClose:hover{
+    cursor: pointer;
+}
 .skill-item h2 {
     color: #fff;
     font-size: "hind", sans-serif;
