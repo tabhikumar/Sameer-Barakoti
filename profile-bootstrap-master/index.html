@@ -9,6 +9,15 @@
     <meta name="theme-color" content="#3A529B" />
     <meta name="description" content="" />
     <meta name="author" content="" />
+    <script>
+      if (window.location.protocol === "file:") {
+        window.location.replace(
+          "http://localhost:3000" +
+            window.location.pathname.substring(window.location.pathname.lastIndexOf("/")) +
+            window.location.hash
+        );
+      }
+    </script>
 
     <link rel="shortcut icon" href="img/favicon.ico" />
     <title>Sameer Barakoti</title>
@@ -713,21 +722,30 @@
                 We’re here to help with your real estate and mortgage needs. Reach out anytime for quick, reliable support.
               </p>
             </div>
-            <div class="row con-form">
+            <form
+              id="contactForm"
+              class="row con-form"
+              data-recipient-config="CONTACT_FORM_CONFIG"
+              novalidate
+            >
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="text" name="_honey" class="d-none" tabindex="-1" autocomplete="off" />
               <div class="col-md-12">
                 <input
                   type="text"
                   name="full-name"
                   placeholder="Full Name"
                   class="form-control"
+                  required
                 />
               </div>
               <div class="col-md-12">
                 <input
-                  type="text"
+                  type="email"
                   name="email"
                   placeholder="Email Id"
                   class="form-control"
+                  required
                 />
               </div>
               <div class="col-md-12">
@@ -736,16 +754,37 @@
                   name="subject"
                   placeholder="Subject"
                   class="form-control"
+                  required
                 />
               </div>
-              <div class="col-md-12"><textarea name="" id=""></textarea></div>
-
+              <div class="col-md-12">
+                <textarea
+                  name="message"
+                  id="contact-message"
+                  class="form-control"
+                  placeholder="Your Message"
+                  rows="5"
+                  required
+                ></textarea>
+              </div>
+              <div class="col-md-12">
+                <div
+                  id="contactFormStatus"
+                  class="alert mt-3 d-none"
+                  role="alert"
+                  aria-live="polite"
+                ></div>
+              </div>
               <div class="col-md-12 sub-but">
-                <button class="btn btn-general btn-white" role="button">
+                <button
+                  id="contactSubmitButton"
+                  class="btn btn-general btn-white"
+                  type="submit"
+                >
                   Send
                 </button>
               </div>
-            </div>
+            </form>
           </div>
           <div class="col-md-4 col-sm-12 mt-5">
             <div class="contact-cont2">
@@ -1529,13 +1568,13 @@
     </div>
 
     <!-- Chat Widget -->
-<div id="chatWidget">
+<div id="chatWidget" style="display: none;">
   <div class="chat-header">
     <div class="chat-user">
       <img src="img/profile.png" />
       <span>Sameer Barakoti</span>
     </div>
-    <span id="chatClose" style="font-weight: 600; font-size: 30px">&times;</span>
+    <span id="chatDismiss" style="font-weight: 600; font-size: 30px">&times;</span>
   </div>
 
   <div class="chat-body">
@@ -1547,12 +1586,18 @@
 
   <div class="chat-footer">
     <input type="text" id="chatInput" placeholder="Type a message..." />
-    <button id="sendBtn">&#10148;</button>
+    <button id="chatSendBtn" type="button">&#10148;</button>
   </div>
+  <div
+    id="chatStatus"
+    class="px-3 pb-3"
+    style="font-size: 13px;"
+    aria-live="polite"
+  ></div>
 </div>
 
 <!-- Chat Toggle Button -->
-<button id="chatToggle">💬</button>
+<button id="chatLauncher">💬</button>
     <!-- Global javascript -->
     <script src="js/jquery/jquery.min.js"></script>
     <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
@@ -1562,6 +1607,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
+    <script src="js/contact-form-config.js"></script>
     <script src="js/custom.js"></script>
     <script>
         // Toggle Chat

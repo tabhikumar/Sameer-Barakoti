@@ -503,7 +503,8 @@ box-shadow: none !important;
 }
 
 /* Chat Toggle Button */
-#chatToggle {
+#chatToggle,
+#chatLauncher {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -604,15 +605,18 @@ box-shadow: none !important;
   width: 40px;
   cursor: pointer;
 }
-#sendBtn:focus{
+#sendBtn:focus,
+#chatSendBtn:focus{
     outline: none;
     box-shadow: none;
 }
-#chatToggle:focus{
+#chatToggle:focus,
+#chatLauncher:focus{
     outline: none;
     box-shadow: none;
 }
-#chatClose:hover{
+#chatClose:hover,
+#chatDismiss:hover{
     cursor: pointer;
 }
 .skill-item h2 {
