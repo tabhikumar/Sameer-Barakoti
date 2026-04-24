@@ -1,6 +1,6 @@
 (function() {
   var isLocalFile = window.location.protocol === "file:";
-  var origin = isLocalFile ? "https://sameer-barakoti.vercel.app" : window.location.origin;
+  var origin = isLocalFile ? "https://sameer-barakoti.vercel.app/profile-bootstrap-master" : window.location.origin;
 
   window.CONTACT_FORM_CONFIG = {
     apiEndpoint: origin + "/api/contact",
