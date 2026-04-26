@@ -13,8 +13,10 @@
       if (window.location.protocol === "file:") {
         window.location.replace(
           "http://localhost:3000" +
-            window.location.pathname.substring(window.location.pathname.lastIndexOf("/")) +
-            window.location.hash
+            window.location.pathname.substring(
+              window.location.pathname.lastIndexOf("/"),
+            ) +
+            window.location.hash,
         );
       }
     </script>
@@ -40,11 +42,10 @@
     />
     <link href="css/style.css" rel="stylesheet" />
 
-  <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-/>
-
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
   </head>
 
   <body id="page-top">
@@ -54,7 +55,11 @@
     >
       <a class="navbar-brand js-scroll-trigger" href="#page-top">
         <span class="d-block d-lg-none mx-0 px-0"
-          ><img src="img/samir_sir_logo.png" alt="" style="width: 50px; height: 50px;" class="img-fluid"
+          ><img
+            src="img/samir_sir_logo.png"
+            alt=""
+            style="width: 50px; height: 50px"
+            class="img-fluid"
         /></span>
         <span class="d-none d-lg-block">
           <img
@@ -98,8 +103,10 @@
               >Skills</a
             >
           </li>
-           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger text-white" href="#testimonials"
+          <li class="nav-item">
+            <a
+              class="nav-link js-scroll-trigger text-white"
+              href="#testimonials"
               >Testimonials</a
             >
           </li>
@@ -111,7 +118,18 @@
               >Contact</a
             >
           </li>
-          <li class="nav-item">
+          <div class="mt-2">
+            <a href="https://www.facebook.com/profile.php?id=100069169076910" target="_blank" class="text-white mx-1"
+              ><i class="fa fa-facebook fa-2x icon_a"></i
+            ></a>
+            <a href="https://www.linkedin.com/in/sameer-barakoti-237aa575/" target="_blank" class="text-white mx-1"
+              ><i class="fa fa-linkedin fa-2x icon_a"></i
+            ></a>
+            <a href="tel:+1 817-932-2649" target="_blank" class="text-white mx-1"
+              ><i class="fa fa-phone fa-2x icon_a"></i
+            ></a>
+          </div>
+          <!-- <li class="nav-item">
             <a
               class="nav-link js-scroll-trigger text-white"
               href="#visit_realty"
@@ -124,7 +142,7 @@
               href="#visit_loan_offocer"
               >Loan officer</a
             >
-          </li>
+          </li> -->
         </ul>
       </div>
     </nav>
@@ -156,9 +174,9 @@
             <!-- Slide 1 -->
             <div class="carousel-item active">
               <img
-                src="img/profile_a.png"
+                src="img/slider_b.jpg"
                 class="d-block w-100"
-                style="height: 100vh; object-fit: contain"
+                style="height: 100vh; object-fit: cover"
                 alt=""
               />
               <div
@@ -210,7 +228,7 @@
                   support.
                 </p>
 
-                <div class="mt-3">
+                <!-- <div class="mt-3">
                   <a href="#" class="text-white mx-2"
                     ><i class="fa fa-facebook fa-2x"></i
                   ></a>
@@ -220,7 +238,7 @@
                   <a href="#" class="text-white mx-2"
                     ><i class="fa fa-phone fa-2x"></i
                   ></a>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -369,19 +387,19 @@
                 class="btn btn-general btn-green filter-b"
                 data-filter="consulting"
               >
-                Just Sold
+                Active Listing
               </button>
               <button
                 class="btn btn-general btn-green filter-b"
                 data-filter="finance"
               >
-                Under Contract
+                Worked with Buyer
               </button>
               <button
                 class="btn btn-general btn-green filter-b"
                 data-filter="marketing"
               >
-                Active Listing
+                Worked with Seller 
               </button>
             </div>
           </div>
@@ -398,7 +416,7 @@
                   <i class="fa fa-search-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="img/port.jpg" alt="" />
+              <img class="img-fluid" src="img/port_1.jpg" alt="" />
             </a>
           </div>
           <div class="col-sm-4 portfolio-item filter marketing">
@@ -412,7 +430,7 @@
                   <i class="fa fa-search-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="img/port_a.webp" alt="" />
+              <img class="img-fluid" src="img/port_2.jpg" alt="" />
             </a>
           </div>
           <div class="col-sm-4 portfolio-item filter consulting">
@@ -426,7 +444,7 @@
                   <i class="fa fa-search-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="img/port_b.webp" alt="" />
+              <img class="img-fluid" src="img/port_3.jpg" alt="" />
             </a>
           </div>
           <div class="col-sm-4 portfolio-item filter consulting">
@@ -440,7 +458,7 @@
                   <i class="fa fa-search-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="img/port_c.webp" alt="" />
+              <img class="img-fluid" src="img/port_4.jpg" alt="" />
             </a>
           </div>
           <div class="col-sm-4 portfolio-item filter consulting">
@@ -454,7 +472,7 @@
                   <i class="fa fa-search-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="img/port_d.webp" alt="" />
+              <img class="img-fluid" src="img/port_5.jpg" alt="" />
             </a>
           </div>
           <div class="col-sm-4 portfolio-item filter finance">
@@ -468,7 +486,7 @@
                   <i class="fa fa-search-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="img/port_e.jpg" alt="" />
+              <img class="img-fluid" src="img/port_6.jpg" alt="" />
             </a>
           </div>
           <div class="col-sm-4 portfolio-item filter marketing">
@@ -482,7 +500,7 @@
                   <i class="fa fa-search-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="img/port_f.jpg" alt="" />
+              <img class="img-fluid" src="img/port_7.jpg" alt="" />
             </a>
           </div>
           <div class="col-sm-4 portfolio-item filter marketing">
@@ -496,7 +514,7 @@
                   <i class="fa fa-search-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="img/port_g.jpg" alt="" />
+              <img class="img-fluid" src="img/port_8.jpg" alt="" />
             </a>
           </div>
           <div class="col-sm-4 portfolio-item filter finance">
@@ -510,7 +528,7 @@
                   <i class="fa fa-search-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="img/port_h.jpg" alt="" />
+              <img class="img-fluid" src="img/port_9.jpg" alt="" />
             </a>
           </div>
         </div>
@@ -648,66 +666,67 @@
               </div>
           </div>
       </section>  -->
- <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="testimonials">
-  <div class="row my-auto">
-    <div class="col-12 text-center">
-      <h2>Testimonials</h2>
-      <div class="mb-5 heading-border"></div>
-    </div>
-
-    <div class="col-12">
-      <div class="swiper mySwiper testimonial-swiper">
-        <div class="swiper-wrapper">
-
-          <!-- Slide 1 -->
-          <div class="swiper-slide">
-            <div class="testimonial-card">
-              <img src="img/profile.png" class="testi-img" />
-              <p>
-                Great service and smooth experience. Highly recommended for real estate needs.
-              </p>
-              <i class="bx bxs-quote-alt-left quote-icon"></i>
-              <h4>Marnie Lotter</h4>
-              <span>Mortgage Officer</span>
-            </div>
+      <section
+        class="resume-section p-3 p-lg-5 d-flex flex-column"
+        id="testimonials"
+      >
+        <div class="row my-auto">
+          <div class="col-12 text-center">
+            <h2>Testimonials</h2>
+            <div class="mb-5 heading-border"></div>
           </div>
 
-          <!-- Slide 2 -->
-          <div class="swiper-slide">
-            <div class="testimonial-card">
-              <img src="img/profile.png" class="testi-img" />
-              <p>
-                Very professional and helpful throughout the entire process.
-              </p>
-              <i class="bx bxs-quote-alt-left quote-icon"></i>
-              <h4>John Smith</h4>
-              <span>Realtor</span>
-            </div>
-          </div>
+          <div class="col-12">
+            <div class="swiper mySwiper testimonial-swiper">
+              <div class="swiper-wrapper">
+                <!-- Slide 1 -->
+                <div class="swiper-slide">
+                  <div class="testimonial-card">
+                    <img src="img/profile.png" class="testi-img" />
+                    <p>
+                      Great service and smooth experience. Highly recommended
+                      for real estate needs.
+                    </p>
+                    <i class="bx bxs-quote-alt-left quote-icon"></i>
+                    <h4>Marnie Lotter</h4>
+                    <span>Mortgage Officer</span>
+                  </div>
+                </div>
 
-          <!-- Slide 3 -->
-          <div class="swiper-slide">
-            <div class="testimonial-card">
-              <img src="img/profile.png" class="testi-img" />
-              <p>
-                I got my dream home thanks to their expert guidance.
-              </p>
-              <i class="bx bxs-quote-alt-left quote-icon"></i>
-              <h4>Ashley Brown</h4>
-              <span>Loan Officer</span>
-            </div>
-          </div>
+                <!-- Slide 2 -->
+                <div class="swiper-slide">
+                  <div class="testimonial-card">
+                    <img src="img/profile.png" class="testi-img" />
+                    <p>
+                      Very professional and helpful throughout the entire
+                      process.
+                    </p>
+                    <i class="bx bxs-quote-alt-left quote-icon"></i>
+                    <h4>John Smith</h4>
+                    <span>Realtor</span>
+                  </div>
+                </div>
 
-        </div>
+                <!-- Slide 3 -->
+                <div class="swiper-slide">
+                  <div class="testimonial-card">
+                    <img src="img/profile.png" class="testi-img" />
+                    <p>I got my dream home thanks to their expert guidance.</p>
+                    <i class="bx bxs-quote-alt-left quote-icon"></i>
+                    <h4>Ashley Brown</h4>
+                    <span>Loan Officer</span>
+                  </div>
+                </div>
+              </div>
 
-        <!-- controls -->
-        <!-- <div class="swiper-button-next"></div>
+              <!-- controls -->
+              <!-- <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div> -->
-        <div class="swiper-pagination"></div>
-      </div>
-    </div>
-  </div>
-</section>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+        </div>
+      </section>
       <!--====================================================
                           CONTACT
     ======================================================-->
@@ -716,10 +735,11 @@
           <div class="col-md-8">
             <div class="contact-cont">
               <h3>CONTACT Us</h3>
-              <div class="heading-border mb-3" style="margin: 0;"></div>
+              <div class="heading-border mb-3" style="margin: 0"></div>
               <div class="heading-border-light"></div>
               <p>
-                We’re here to help with your real estate and mortgage needs. Reach out anytime for quick, reliable support.
+                We’re here to help with your real estate and mortgage needs.
+                Reach out anytime for quick, reliable support.
               </p>
             </div>
             <form
@@ -729,7 +749,13 @@
               novalidate
             >
               <input type="hidden" name="_captcha" value="false" />
-              <input type="text" name="_honey" class="d-none" tabindex="-1" autocomplete="off" />
+              <input
+                type="text"
+                name="_honey"
+                class="d-none"
+                tabindex="-1"
+                autocomplete="off"
+              />
               <div class="col-md-12">
                 <input
                   type="text"
@@ -789,9 +815,7 @@
           <div class="col-md-4 col-sm-12 mt-5">
             <div class="contact-cont2">
               <div class="contact-add contact-box-desc">
-                <h3>
-                  <i class="fa fa-map-marker cl-atlantis"></i> Address
-                </h3>
+                <h3><i class="fa fa-map-marker cl-atlantis"></i> Address</h3>
                 <p>
                   1001 W Euless Blvd suite 106, <br />
                   Euless, TX, United States, Texas <br />
@@ -802,9 +826,7 @@
                 <p>+1 817-932-2649 <br /></p>
               </div>
               <div class="contact-mail contact-side-desc contact-box-desc">
-                <h3>
-                  <i class="fa fa-envelope-o cl-atlantis"></i> Email
-                </h3>
+                <h3><i class="fa fa-envelope-o cl-atlantis"></i> Email</h3>
                 <address class="address-details-f">
                   Email:
                   <a href="sbarakoti@fishtailre.com" class=""
@@ -813,7 +835,7 @@
                 </address>
                 <ul class="list-inline social-icon-f top-data">
                   <li>
-                    <a href="#" target="_empty"
+                    <a href="https://www.facebook.com/profile.php?id=100069169076910" target="_blank"
                       ><i
                         class="fa top-social fa-facebook"
                         style="color: #4267b2; border-color: #4267b2"
@@ -821,7 +843,7 @@
                     ></a>
                   </li>
                   <li>
-                    <a href="#" target="_empty"
+                    <a href="https://www.linkedin.com/in/sameer-barakoti-237aa575/" target="_blank"
                       ><i
                         class="fa top-social fa-linkedin"
                         style="color: #3a529b; border-color: #4267b2"
@@ -829,9 +851,9 @@
                     ></a>
                   </li>
                   <li>
-                    <a href="#" target="_empty"
-                      ><i
-                        class="fa top-social fa-google-plus"
+                    <a href="tel:+1 817-932-2649" target="_blank">
+                      <i
+                        class="fa top-social fa-phone"
                         style="color: #e24343; border-color: #e24343"
                       ></i
                     ></a>
@@ -882,7 +904,7 @@
                   <div class="col-md-6">
                     <img
                       class="img-fluid img-centered"
-                      src="img/port_f.jpg"
+                      src="img/port_7.jpg"
                       alt=""
                     />
                   </div>
@@ -961,7 +983,7 @@
                   <div class="col-md-6">
                     <img
                       class="img-fluid img-centered"
-                      src="img/port_g.jpg"
+                      src="img/port_8.jpg"
                       alt=""
                     />
                   </div>
@@ -1040,7 +1062,7 @@
                   <div class="col-md-6">
                     <img
                       class="img-fluid img-centered"
-                      src="img/port_h.jpg"
+                      src="img/port_9.jpg"
                       alt=""
                     />
                   </div>
@@ -1119,7 +1141,7 @@
                   <div class="col-md-6">
                     <img
                       class="img-fluid img-centered"
-                      src="img/port.jpg"
+                      src="img/port_1.jpg"
                       alt=""
                     />
                   </div>
@@ -1198,7 +1220,7 @@
                   <div class="col-md-6">
                     <img
                       class="img-fluid img-centered"
-                      src="img/port_a.webp"
+                      src="img/port_2.jpg"
                       alt=""
                     />
                   </div>
@@ -1277,7 +1299,7 @@
                   <div class="col-md-6">
                     <img
                       class="img-fluid img-centered"
-                      src="img/port_b.webp"
+                      src="img/port_3.jpg"
                       alt=""
                     />
                   </div>
@@ -1356,7 +1378,7 @@
                   <div class="col-md-6">
                     <img
                       class="img-fluid img-centered"
-                      src="img/port_c.webp"
+                      src="img/port_4.jpg"
                       alt=""
                     />
                   </div>
@@ -1435,7 +1457,7 @@
                   <div class="col-md-6">
                     <img
                       class="img-fluid img-centered"
-                      src="img/port_d.webp"
+                      src="img/port_5.jpg"
                       alt=""
                     />
                   </div>
@@ -1514,7 +1536,7 @@
                   <div class="col-md-6">
                     <img
                       class="img-fluid img-centered"
-                      src="img/port_e.jpg"
+                      src="img/port_6.jpg"
                       alt=""
                     />
                   </div>
@@ -1568,36 +1590,38 @@
     </div>
 
     <!-- Chat Widget -->
-<div id="chatWidget" style="display: none;">
-  <div class="chat-header">
-    <div class="chat-user">
-      <img src="img/profile.png" />
-      <span>Sameer Barakoti</span>
+    <div id="chatWidget" style="display: none">
+      <div class="chat-header">
+        <div class="chat-user">
+          <img src="img/profile.png" />
+          <span>Sameer Barakoti</span>
+        </div>
+        <span id="chatDismiss" style="font-weight: 600; font-size: 30px"
+          >&times;</span
+        >
+      </div>
+
+      <div class="chat-body">
+        <div class="chat-message bot">
+          Hey! I'm Sameer Barakoti. Let's kick things off. <br />
+          Tell me, are we on a house hunt or preparing for a sale?
+        </div>
+      </div>
+
+      <div class="chat-footer">
+        <input type="text" id="chatInput" placeholder="Type a message..." />
+        <button id="chatSendBtn" type="button">&#10148;</button>
+      </div>
+      <div
+        id="chatStatus"
+        class="px-3 pb-3"
+        style="font-size: 13px"
+        aria-live="polite"
+      ></div>
     </div>
-    <span id="chatDismiss" style="font-weight: 600; font-size: 30px">&times;</span>
-  </div>
 
-  <div class="chat-body">
-    <div class="chat-message bot">
-      Hey! I'm Sameer Barakoti. Let's kick things off. <br />
-      Tell me, are we on a house hunt or preparing for a sale?
-    </div>
-  </div>
-
-  <div class="chat-footer">
-    <input type="text" id="chatInput" placeholder="Type a message..." />
-    <button id="chatSendBtn" type="button">&#10148;</button>
-  </div>
-  <div
-    id="chatStatus"
-    class="px-3 pb-3"
-    style="font-size: 13px;"
-    aria-live="polite"
-  ></div>
-</div>
-
-<!-- Chat Toggle Button -->
-<button id="chatLauncher">💬</button>
+    <!-- Chat Toggle Button -->
+    <button id="chatLauncher">💬</button>
     <!-- Global javascript -->
     <script src="js/jquery/jquery.min.js"></script>
     <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
@@ -1605,57 +1629,57 @@
     <script src="js/counter/jquery.waypoints.min.js"></script>
     <script src="js/counter/jquery.counterup.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script src="js/contact-form-config.js"></script>
     <script src="js/custom.js"></script>
     <script>
-        // Toggle Chat
-$("#chatToggle").click(function () {
-  $("#chatWidget").fadeToggle();
-});
+      // Toggle Chat
+      $("#chatToggle").click(function () {
+        $("#chatWidget").fadeToggle();
+      });
 
-$("#chatClose").click(function () {
-  $("#chatWidget").fadeOut();
-});
+      $("#chatClose").click(function () {
+        $("#chatWidget").fadeOut();
+      });
 
-// Send Message
-$("#sendBtn").click(function () {
-  let message = $("#chatInput").val();
-  if (message.trim() === "") return;
+      // Send Message
+      $("#sendBtn").click(function () {
+        let message = $("#chatInput").val();
+        if (message.trim() === "") return;
 
-  $(".chat-body").append(
-    '<div class="chat-message user">' + message + "</div>"
-  );
+        $(".chat-body").append(
+          '<div class="chat-message user">' + message + "</div>",
+        );
 
-  $("#chatInput").val("");
+        $("#chatInput").val("");
 
-  // Fake bot reply
-  setTimeout(() => {
-    $(".chat-body").append(
-      '<div class="chat-message bot">Thanks! I will help you with that 😊</div>'
-    );
-    $(".chat-body").scrollTop($(".chat-body")[0].scrollHeight);
-  }, 1000);
-});
+        // Fake bot reply
+        setTimeout(() => {
+          $(".chat-body").append(
+            '<div class="chat-message bot">Thanks! I will help you with that 😊</div>',
+          );
+          $(".chat-body").scrollTop($(".chat-body")[0].scrollHeight);
+        }, 1000);
+      });
     </script>
     <script>
-     var swiper = new Swiper(".mySwiper", {
-    slidesPerView: 1,
-    loop: true,
-    autoplay: {
-      delay: 3000,
-      disableOnInteraction: false,
-    },
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-  });
+      var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        loop: true,
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
     </script>
     <script>
       $(document).ready(function () {
