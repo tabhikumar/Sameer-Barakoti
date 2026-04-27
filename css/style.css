@@ -13,7 +13,12 @@ body {
         padding-left: 17rem;
     }
 }
-
+@media (max-width: 1000px) {
+    #chatLauncher{
+        display: none !important;
+    }
+   
+}
 h1,
 h2,
 h3,
@@ -564,6 +569,7 @@ border: 2px solid #FCBF07;
   flex-direction: column;
   overflow: hidden; /* IMPORTANT */
   z-index: 99999;
+      /* width: min-content; */
 }
 
 /* Chat body should scroll */
@@ -606,11 +612,11 @@ border: 2px solid #FCBF07;
 
 
 .chat-message {
-  background: #e0e0e0;
+  /* background: #e0e0e0; */
   padding: 8px 12px;
   border-radius: 10px;
   margin-bottom: 10px;
-  max-width: 80%;
+  max-width: 100%;
 }
 
 .chat-message.user {
