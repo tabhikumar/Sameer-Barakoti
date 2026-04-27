@@ -97,7 +97,7 @@
 
 .chat-user-details h3 {
   margin: 0;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   font-family: 'Roboto Condensed', sans-serif;
   text-transform: none;
@@ -442,7 +442,7 @@
   }
 
   .chat-user-details h3 {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
     color: #fff !important;
   }
@@ -502,7 +502,7 @@
   }
 
   .chat-user-details h3 {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
     color: #fff !important;
   }
