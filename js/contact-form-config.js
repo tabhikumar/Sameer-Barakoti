@@ -1,9 +1,10 @@
 (function() {
   var isLocalFile = window.location.protocol === "file:";
   var origin = isLocalFile ? "https://www.sameerbarakoti.com" : window.location.origin;
+  var defaultApiEndpoint = origin + "/api/contact";
 
   window.CONTACT_FORM_CONFIG = {
-    apiEndpoint: origin + "/api/contact",
+    apiEndpoint: window.CONTACT_FORM_API_ENDPOINT || defaultApiEndpoint,
     successMessage: "Thanks! Your message has been sent successfully.",
     errorMessage:
       "Your message could not be sent right now. Please try again in a moment.",

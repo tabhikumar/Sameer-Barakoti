@@ -64,7 +64,12 @@
     }
 
     if (xhr && xhr.status === 0) {
-      return "Could not reach the contact server. Start the Node server with `npm start`, then try again.";
+      return (
+        "Could not reach the contact server. " +
+        "Make sure your backend is deployed and available at " +
+        getApiEndpoint() + ". " +
+        "If the website is HTTPS, the contact API must also be HTTPS."
+      );
     }
 
     return formConfig.errorMessage;

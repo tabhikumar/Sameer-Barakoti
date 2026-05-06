@@ -55,6 +55,14 @@ function createTransporter() {
   });
 }
 
+app.get("/health", function(req, res) {
+  return res.json({
+    status: "ok",
+    environment: process.env.NODE_ENV || "production",
+    smtpUser: smtpUser,
+  });
+});
+
 app.post("/api/contact", async function(req, res) {
   try {
     const source = String(req.body.source || "contact").trim().toLowerCase();
@@ -169,7 +177,8 @@ app.get("*", function(req, res) {
 });
 
 app.listen(port, function() {
-  console.log("Server running at https://www.sameerbarakoti.com:" + port);
+  console.log("Server running on port " + port + ".");
+  console.log("Contact API endpoint is available at /api/contact");
   transporter
     .verify()
     .then(function() {
