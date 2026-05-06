@@ -169,7 +169,7 @@ app.get("*", function(req, res) {
 });
 
 app.listen(port, function() {
-  console.log("Server running at http://localhost:3000:" + port);
+  console.log("Server running at https://www.sameerbarakoti.com:" + port);
   transporter
     .verify()
     .then(function() {
