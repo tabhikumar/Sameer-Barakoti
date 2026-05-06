@@ -153,7 +153,7 @@ module.exports = async function handler(req, res) {
     const configStatus = getConfigStatus();
     if (!hasRequiredConfig(configStatus)) {
       res.status(500).json({
-        message: "Contact email server is not configured in Vercel.",
+        message: "Your message could not be sent right now. Please try again later.",
         config: configStatus,
       });
       return;
