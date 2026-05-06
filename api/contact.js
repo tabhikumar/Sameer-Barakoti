@@ -7,6 +7,17 @@ function getEnv(name) {
   return value ? value.trim() : "";
 }
 
+function getFirstEnv(names) {
+  for (const name of names) {
+    const value = getEnv(name);
+    if (value) {
+      return value;
+    }
+  }
+
+  return "";
+}
+
 function isValidEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
@@ -62,11 +73,12 @@ function readBody(req) {
 }
 
 function createTransporter() {
-  const host = getEnv("SMTP_HOST");
-  const port = Number(process.env.SMTP_PORT || 587);
-  const secure = String(process.env.SMTP_SECURE || "false").toLowerCase() === "true";
-  const user = getEnv("SMTP_USER");
-  const pass = getEnv("SMTP_PASS");
+  const host = getFirstEnv(["SMTP_HOST", "MAIL_HOST"]);
+  const port = Number(getFirstEnv(["SMTP_PORT", "MAIL_PORT"]) || 587);
+  const encryption = getFirstEnv(["SMTP_SECURE", "MAIL_ENCRYPTION"]).toLowerCase();
+  const secure = encryption === "true" || encryption === "ssl";
+  const user = getFirstEnv(["SMTP_USER", "MAIL_USERNAME"]);
+  const pass = getFirstEnv(["SMTP_PASS", "MAIL_PASSWORD"]);
 
   if (!host || !user || !pass) {
     throw new Error("Missing SMTP configuration: SMTP_HOST, SMTP_USER, and SMTP_PASS are required.");
@@ -85,14 +97,14 @@ function createTransporter() {
 
 function getConfigStatus() {
   return {
-    SMTP_HOST: Boolean(getEnv("SMTP_HOST")),
-    SMTP_PORT: Boolean(process.env.SMTP_PORT),
-    SMTP_SECURE: Boolean(process.env.SMTP_SECURE),
-    SMTP_USER: Boolean(getEnv("SMTP_USER")),
-    SMTP_PASS: Boolean(getEnv("SMTP_PASS")),
-    CONTACT_TO_EMAIL: Boolean(getEnv("CONTACT_TO_EMAIL")),
-    CONTACT_FROM_EMAIL: Boolean(getEnv("CONTACT_FROM_EMAIL")),
-    CONTACT_FROM_NAME: Boolean(getEnv("CONTACT_FROM_NAME")),
+    SMTP_HOST: Boolean(getFirstEnv(["SMTP_HOST", "MAIL_HOST"])),
+    SMTP_PORT: Boolean(getFirstEnv(["SMTP_PORT", "MAIL_PORT"])),
+    SMTP_SECURE: Boolean(getFirstEnv(["SMTP_SECURE", "MAIL_ENCRYPTION"])),
+    SMTP_USER: Boolean(getFirstEnv(["SMTP_USER", "MAIL_USERNAME"])),
+    SMTP_PASS: Boolean(getFirstEnv(["SMTP_PASS", "MAIL_PASSWORD"])),
+    CONTACT_TO_EMAIL: Boolean(getFirstEnv(["CONTACT_TO_EMAIL", "MAIL_TO_ADDRESS"])),
+    CONTACT_FROM_EMAIL: Boolean(getFirstEnv(["CONTACT_FROM_EMAIL", "MAIL_FROM_ADDRESS"])),
+    CONTACT_FROM_NAME: Boolean(getFirstEnv(["CONTACT_FROM_NAME", "MAIL_FROM_NAME"])),
   };
 }
 
@@ -169,11 +181,11 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    const smtpUser = getEnv("SMTP_USER");
-    const contactToEmail = getEnv("CONTACT_TO_EMAIL");
-    const contactBccEmail = getEnv("CONTACT_BCC_EMAIL");
-    const contactFromEmail = getEnv("CONTACT_FROM_EMAIL") || smtpUser;
-    const contactFromName = getEnv("CONTACT_FROM_NAME") || "Website Contact";
+    const smtpUser = getFirstEnv(["SMTP_USER", "MAIL_USERNAME"]);
+    const contactToEmail = getFirstEnv(["CONTACT_TO_EMAIL", "MAIL_TO_ADDRESS"]);
+    const contactBccEmail = getFirstEnv(["CONTACT_BCC_EMAIL", "MAIL_BCC_ADDRESS"]);
+    const contactFromEmail = getFirstEnv(["CONTACT_FROM_EMAIL", "MAIL_FROM_ADDRESS"]) || smtpUser;
+    const contactFromName = getFirstEnv(["CONTACT_FROM_NAME", "MAIL_FROM_NAME"]) || "Website Contact";
 
     if (!contactToEmail || !contactFromEmail) {
       throw new Error("Missing contact email configuration: CONTACT_TO_EMAIL is required.");

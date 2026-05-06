@@ -141,6 +141,32 @@ CONTACT_FROM_EMAIL=your-email@gmail.com
 CONTACT_FROM_NAME=Sameer Barakoti
 ```
 
+For Gmail with SSL, this set is also valid:
+
+```text
+SMTP_HOST=smtp.googlemail.com
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-google-app-password
+CONTACT_TO_EMAIL=your-email@gmail.com
+CONTACT_FROM_EMAIL=your-email@gmail.com
+CONTACT_FROM_NAME=Sameer Barakoti
+```
+
+The API also accepts these common aliases if you already use `MAIL_*` variables:
+
+```text
+MAIL_HOST
+MAIL_PORT
+MAIL_ENCRYPTION
+MAIL_USERNAME
+MAIL_PASSWORD
+MAIL_FROM_ADDRESS
+MAIL_FROM_NAME
+MAIL_TO_ADDRESS
+```
+
 After pushing this repository to GitHub, redeploy the project in Vercel. If the route still shows `404: NOT_FOUND`, confirm the `api/contact.js` file exists in the deployed GitHub branch selected by Vercel.
 
 You can also open this URL in your browser after redeploying:
