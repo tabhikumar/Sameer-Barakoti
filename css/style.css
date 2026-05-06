@@ -2085,6 +2085,194 @@ button:hover{
   background: rgba(255, 255, 255, 0.11);
   font-size: 16px !important;
 }
+
+/*====================================================
+                PORTFOLIO MODAL POLISH
+======================================================*/
+
+.portfolio-modal {
+  background: rgba(13, 21, 43, 0.72);
+}
+
+.portfolio-modal .modal-dialog {
+  max-width: 1120px;
+  min-height: auto;
+  margin: 32px auto;
+  padding: 0 18px;
+}
+
+.portfolio-modal .modal-dialog .modal-content {
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid rgba(58, 82, 155, 0.14);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(58, 82, 155, 0.045), rgba(252, 191, 7, 0.06)),
+    #f8fafc;
+  box-shadow: 0 30px 90px rgba(13, 21, 43, 0.34);
+}
+
+.portfolio-modal .modal-dialog .modal-content .container {
+  max-width: 1120px;
+  padding: 0;
+}
+
+.portfolio-modal .modal-body {
+  width: 100%;
+  padding: 0;
+}
+
+.portfolio-modal .title-bar {
+  position: relative;
+  padding: 34px 72px 26px;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(252, 191, 7, 0.2), transparent 28%),
+    linear-gradient(135deg, #25345f 0%, #3A529B 100%);
+}
+
+.portfolio-modal .title-bar h2 {
+  max-width: 860px;
+  margin: 0 auto;
+  color: #fff;
+  font-size: 2.35rem;
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.portfolio-modal .title-bar .heading-border {
+  margin-bottom: 0;
+  background: linear-gradient(90deg, #FCBF07, rgba(255, 255, 255, 0.8));
+}
+
+.portfolio-modal .modal-body > .row {
+  align-items: stretch;
+  margin: 0;
+  padding: 34px;
+}
+
+.portfolio-modal .modal-body > .row > [class*="col-md-"] {
+  padding: 0 16px;
+}
+
+.portfolio-modal .modal-dialog .modal-content img {
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  max-height: 520px;
+  margin: 0;
+  object-fit: cover;
+  border: 1px solid rgba(58, 82, 155, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 18px 42px rgba(28, 42, 84, 0.14);
+}
+
+.portfolio-modal .modal-body p {
+  min-height: 360px;
+  margin: 0 0 24px;
+  padding: 26px;
+  border: 1px solid rgba(58, 82, 155, 0.12);
+  border-radius: 8px;
+  background: #fff;
+  color: #596273;
+  box-shadow: 0 18px 42px rgba(28, 42, 84, 0.1);
+  font-family: lato, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.78;
+}
+
+.portfolio-modal .btn-white {
+  min-width: 132px;
+  border-radius: 999px;
+  box-shadow: 0 12px 26px rgba(58, 82, 155, 0.2);
+  font-family: lato, sans-serif;
+  font-weight: 800;
+  text-transform: none;
+}
+
+.portfolio-modal .btn-white:hover,
+.portfolio-modal .btn-white:focus {
+  border-color: #FCBF07;
+  background: #FCBF07;
+  color: #25345f;
+}
+
+.portfolio-modal .close-modal {
+  top: 22px;
+  right: 22px;
+  z-index: 5;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+
+.portfolio-modal .close-modal:hover {
+  opacity: 1;
+  background: #FCBF07;
+  transform: rotate(90deg);
+}
+
+.portfolio-modal .close-modal .lr {
+  width: 2px;
+  height: 22px;
+  margin-top: 9px;
+  margin-left: 20px;
+  background-color: #fff;
+}
+
+.portfolio-modal .close-modal .lr .rl {
+  width: 2px;
+  height: 22px;
+  background-color: #fff;
+}
+
+.portfolio-modal .close-modal:hover .lr,
+.portfolio-modal .close-modal:hover .lr .rl {
+  background-color: #25345f;
+}
+
+@media (max-width: 850px) {
+  .portfolio-modal .modal-dialog {
+    margin: 16px auto;
+    padding: 0 12px;
+  }
+
+  .portfolio-modal .close-modal {
+    display: block;
+    top: 14px;
+    right: 14px;
+  }
+
+  .portfolio-modal .title-bar {
+    padding: 58px 18px 24px;
+  }
+
+  .portfolio-modal .title-bar h2 {
+    font-size: 1.9rem;
+  }
+
+  .portfolio-modal .modal-body > .row {
+    padding: 22px;
+  }
+
+  .portfolio-modal .modal-body > .row > [class*="col-md-"] {
+    padding: 0;
+  }
+
+  .portfolio-modal .modal-dialog .modal-content img {
+    min-height: 240px;
+    max-height: 320px;
+    margin-bottom: 20px;
+  }
+
+  .portfolio-modal .modal-body p {
+    min-height: 0;
+    padding: 22px;
+  }
+}
  
 .map-responsive{
     overflow:hidden;
