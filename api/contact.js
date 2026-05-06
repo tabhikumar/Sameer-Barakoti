@@ -35,6 +35,41 @@ function formatMailbox(name, email) {
   return "\"" + String(name).replace(/"/g, "") + "\" <" + email + ">";
 }
 
+function parseImageAttachment(image) {
+  if (!image || typeof image !== "object") {
+    return null;
+  }
+
+  const dataUrl = String(image.dataUrl || "");
+  const match = dataUrl.match(/^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/);
+
+  if (!match) {
+    throw new Error("Invalid review image.");
+  }
+
+  const content = Buffer.from(match[2], "base64");
+  const maxBytes = 2 * 1024 * 1024;
+
+  if (!content.length || content.length > maxBytes) {
+    throw new Error("Review image must be smaller than 2 MB.");
+  }
+
+  const extensionByType = {
+    "image/jpeg": "jpg",
+    "image/png": "png",
+    "image/webp": "webp",
+  };
+  const mimeType = match[1];
+  const fallbackName = "review-image." + extensionByType[mimeType];
+  const fileName = String(image.fileName || fallbackName).replace(/[^\w.\- ]/g, "") || fallbackName;
+
+  return {
+    filename: fileName,
+    content: content,
+    contentType: mimeType,
+  };
+}
+
 function readBody(req) {
   if (req.body && typeof req.body === "object") {
     return Promise.resolve(req.body);
@@ -164,12 +199,22 @@ module.exports = async function handler(req, res) {
     const fullName = String(body.fullName || "").trim();
     const email = String(body.email || "").trim();
     const subject = String(body.subject || "").trim();
+    const title = String(body.title || "").trim();
+    const rating = String(body.rating || "").trim();
     const message = String(body.message || "").trim();
     const isChatSubmission = source === "chat";
+    const isReviewSubmission = source === "review";
 
-    if (!message || (!isChatSubmission && (!fullName || !email || !subject))) {
+    if (!message || (!isChatSubmission && !isReviewSubmission && (!fullName || !email || !subject))) {
       res.status(400).json({
         message: "Please fill in all required fields.",
+      });
+      return;
+    }
+
+    if (isReviewSubmission && (!fullName || !email || !title || !rating || !body.image)) {
+      res.status(400).json({
+        message: "Please fill in all review fields and upload an image.",
       });
       return;
     }
@@ -177,6 +222,13 @@ module.exports = async function handler(req, res) {
     if (!isChatSubmission && !isValidEmail(email)) {
       res.status(400).json({
         message: "Please enter a valid email address.",
+      });
+      return;
+    }
+
+    if (isReviewSubmission && !/^[1-5]$/.test(rating)) {
+      res.status(400).json({
+        message: "Please select a valid review rating.",
       });
       return;
     }
@@ -191,9 +243,12 @@ module.exports = async function handler(req, res) {
       throw new Error("Missing contact email configuration: CONTACT_TO_EMAIL is required.");
     }
 
+    const reviewAttachment = isReviewSubmission ? parseImageAttachment(body.image) : null;
     const mailSubject = isChatSubmission
       ? "Website Chat Lead"
-      : "Portfolio Contact: " + subject;
+      : isReviewSubmission
+        ? "Website Review Submission: " + title
+        : "Portfolio Contact: " + subject;
     const textBody = isChatSubmission
       ? [
           "You received a new chat widget message.",
@@ -203,6 +258,20 @@ module.exports = async function handler(req, res) {
           "Message:",
           message,
         ].join("\n")
+      : isReviewSubmission
+        ? [
+            "You received a new website review.",
+            "",
+            "Name: " + fullName,
+            "Email: " + email,
+            "Rating: " + rating + " Stars",
+            "Title: " + title,
+            "",
+            "Review:",
+            message,
+            "",
+            "The submitted image is attached.",
+          ].join("\n")
       : [
           "You received a new contact form message.",
           "",
@@ -220,6 +289,17 @@ module.exports = async function handler(req, res) {
           "<p><strong>Message:</strong></p>",
           "<p>" + escapeHtml(message).replace(/\n/g, "<br>") + "</p>",
         ].join("")
+      : isReviewSubmission
+        ? [
+            "<h2>New Website Review</h2>",
+            "<p><strong>Name:</strong> " + escapeHtml(fullName) + "</p>",
+            "<p><strong>Email:</strong> " + escapeHtml(email) + "</p>",
+            "<p><strong>Rating:</strong> " + escapeHtml(rating) + " Stars</p>",
+            "<p><strong>Title:</strong> " + escapeHtml(title) + "</p>",
+            "<p><strong>Review:</strong></p>",
+            "<p>" + escapeHtml(message).replace(/\n/g, "<br>") + "</p>",
+            "<p>The submitted image is attached.</p>",
+          ].join("")
       : [
           "<h2>New Contact Form Message</h2>",
           "<p><strong>Name:</strong> " + escapeHtml(fullName) + "</p>",
@@ -244,10 +324,13 @@ module.exports = async function handler(req, res) {
       subject: mailSubject,
       text: textBody,
       html: htmlBody,
+      attachments: reviewAttachment ? [reviewAttachment] : undefined,
     });
 
     res.status(200).json({
-      message: "Thanks! Your message has been sent successfully.",
+      message: isReviewSubmission
+        ? "Thanks! Your review has been sent successfully."
+        : "Thanks! Your message has been sent successfully.",
     });
   } catch (error) {
     console.error("Contact API error:", error.message);

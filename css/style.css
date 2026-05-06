@@ -957,6 +957,36 @@ border: 2px solid #FCBF07;
   border-radius: 50%;
 }  
 
+.review-action .btn {
+  min-width: 150px;
+}
+
+.review-modal .modal-content {
+  border: 0;
+  border-radius: 6px;
+}
+
+.review-modal .modal-header,
+.review-modal .modal-footer {
+  border-color: #e7e7e7;
+}
+
+.review-modal label {
+  color: #555;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.review-modal .form-control {
+  border-color: #ccc;
+  border-radius: 0;
+  color: #717171;
+}
+
+.review-modal textarea.form-control {
+  min-height: 130px;
+}
+
 @media(max-width: 767px){
     #contact-p2 .con-form input{
         margin-bottom: 30px;

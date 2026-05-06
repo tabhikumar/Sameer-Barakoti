@@ -912,6 +912,16 @@
         <div class="swiper-button-prev"></div> -->
               <div class="swiper-pagination"></div>
             </div>
+            <div class="review-action text-center mt-4">
+              <button
+                type="button"
+                class="btn btn-general btn-white"
+                data-toggle="modal"
+                data-target="#reviewModal"
+              >
+                Add Review
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -1828,6 +1838,125 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div
+      class="modal fade review-modal"
+      id="reviewModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="reviewModalTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reviewModalTitle">Share Your Review</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form id="reviewForm" novalidate>
+            <div class="modal-body">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="reviewName">Full Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="reviewName"
+                    name="fullName"
+                    required
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="reviewEmail">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="reviewEmail"
+                    name="email"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="reviewRating">Rating</label>
+                  <select
+                    class="form-control"
+                    id="reviewRating"
+                    name="rating"
+                    required
+                  >
+                    <option value="">Select rating</option>
+                    <option value="5">5 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="2">2 Stars</option>
+                    <option value="1">1 Star</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="reviewImage">Image</label>
+                  <input
+                    type="file"
+                    class="form-control-file"
+                    id="reviewImage"
+                    name="image"
+                    accept="image/png,image/jpeg,image/webp"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="reviewTitle">Review Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="reviewTitle"
+                  name="title"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="reviewMessage">Review Details</label>
+                <textarea
+                  class="form-control"
+                  id="reviewMessage"
+                  name="message"
+                  rows="5"
+                  required
+                ></textarea>
+              </div>
+              <div
+                id="reviewFormStatus"
+                class="alert d-none"
+                role="alert"
+                aria-live="polite"
+              ></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Close
+              </button>
+              <button
+                type="submit"
+                id="reviewSubmitButton"
+                class="btn btn-general btn-white"
+              >
+                Send Review
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

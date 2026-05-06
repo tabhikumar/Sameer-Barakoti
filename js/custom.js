@@ -128,6 +128,159 @@
 })(jQuery);
 
 (function($) {
+  var reviewForm = $("#reviewForm");
+  if (!reviewForm.length) {
+    return;
+  }
+
+  var reviewModal = $("#reviewModal");
+  var reviewFormStatus = $("#reviewFormStatus");
+  var reviewSubmitButton = $("#reviewSubmitButton");
+  var maxImageSize = 2 * 1024 * 1024;
+  var allowedImageTypes = ["image/jpeg", "image/png", "image/webp"];
+  var reviewQueryName = "review_form";
+  var reviewQueryValue = "true";
+
+  function getApiEndpoint() {
+    if (window.CONTACT_FORM_CONFIG && window.CONTACT_FORM_CONFIG.apiEndpoint) {
+      return $.trim(window.CONTACT_FORM_CONFIG.apiEndpoint);
+    }
+
+    return "/api/contact";
+  }
+
+  function setReviewStatus(type, message) {
+    reviewFormStatus
+      .removeClass("d-none alert-success alert-danger alert-warning")
+      .addClass("alert-" + type)
+      .text(message);
+  }
+
+  function getAjaxErrorMessage(xhr) {
+    if (xhr && xhr.responseJSON && xhr.responseJSON.message) {
+      return xhr.responseJSON.message;
+    }
+
+    return "We could not send your review right now.";
+  }
+
+  function readImageFile(file) {
+    return new Promise(function(resolve, reject) {
+      if (!file) {
+        reject(new Error("Please choose an image."));
+        return;
+      }
+
+      if (allowedImageTypes.indexOf(file.type) === -1) {
+        reject(new Error("Please upload a JPG, PNG, or WebP image."));
+        return;
+      }
+
+      if (file.size > maxImageSize) {
+        reject(new Error("Please upload an image smaller than 2 MB."));
+        return;
+      }
+
+      var reader = new FileReader();
+      reader.onload = function() {
+        resolve({
+          fileName: file.name,
+          mimeType: file.type,
+          dataUrl: reader.result,
+        });
+      };
+      reader.onerror = function() {
+        reject(new Error("We could not read the selected image."));
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function hasReviewQuery() {
+    return new URLSearchParams(window.location.search).get(reviewQueryName) === reviewQueryValue;
+  }
+
+  function setReviewQuery() {
+    if (!window.history || !window.history.replaceState) {
+      return;
+    }
+
+    var url = new URL(window.location.href);
+    url.searchParams.set(reviewQueryName, reviewQueryValue);
+    window.history.replaceState({}, "", url.toString());
+  }
+
+  function removeReviewQuery() {
+    if (!window.history || !window.history.replaceState) {
+      return;
+    }
+
+    var url = new URL(window.location.href);
+    url.searchParams.delete(reviewQueryName);
+    window.history.replaceState({}, "", url.toString());
+  }
+
+  if (hasReviewQuery()) {
+    reviewModal.modal("show");
+  }
+
+  reviewModal.on("show.bs.modal", setReviewQuery);
+  reviewModal.on("hidden.bs.modal", removeReviewQuery);
+
+  reviewForm.on("submit", function(event) {
+    event.preventDefault();
+
+    var formElement = reviewForm.get(0);
+    if (!formElement.checkValidity()) {
+      formElement.reportValidity();
+      return;
+    }
+
+    var imageInput = reviewForm.find('[name="image"]').get(0);
+    var imageFile = imageInput && imageInput.files && imageInput.files[0];
+
+    reviewSubmitButton.prop("disabled", true).text("Sending...");
+    setReviewStatus("warning", "Sending your review...");
+
+    readImageFile(imageFile)
+      .then(function(image) {
+        $.ajax({
+          url: getApiEndpoint(),
+          method: "POST",
+          data: JSON.stringify({
+            source: "review",
+            fullName: $.trim(reviewForm.find('[name="fullName"]').val()),
+            email: $.trim(reviewForm.find('[name="email"]').val()),
+            rating: $.trim(reviewForm.find('[name="rating"]').val()),
+            title: $.trim(reviewForm.find('[name="title"]').val()),
+            message: $.trim(reviewForm.find('[name="message"]').val()),
+            image: image,
+          }),
+          contentType: "application/json; charset=UTF-8",
+          dataType: "json",
+        })
+          .done(function(response) {
+            formElement.reset();
+            setReviewStatus(
+              "success",
+              (response && response.message) || "Thanks! Your review has been sent."
+            );
+          })
+          .fail(function(xhr) {
+            setReviewStatus("danger", getAjaxErrorMessage(xhr));
+          })
+          .always(function() {
+            reviewSubmitButton.prop("disabled", false).text("Send Review");
+          });
+      })
+      .catch(function(error) {
+        setReviewStatus("danger", error.message);
+        reviewSubmitButton.prop("disabled", false).text("Send Review");
+      });
+  });
+})(jQuery);
+
+(function($) {
   // Chat Widget Configuration
   var chatWidget = $("#chatWidget");
   var chatToggle = $("#chatLauncher");
