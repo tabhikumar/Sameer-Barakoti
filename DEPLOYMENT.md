@@ -143,6 +143,14 @@ CONTACT_FROM_NAME=Sameer Barakoti
 
 After pushing this repository to GitHub, redeploy the project in Vercel. If the route still shows `404: NOT_FOUND`, confirm the `api/contact.js` file exists in the deployed GitHub branch selected by Vercel.
 
+You can also open this URL in your browser after redeploying:
+
+```text
+https://www.sameerbarakoti.com/api/contact
+```
+
+It should return JSON with `"status": "ok"` and `"configured": true`. If `"configured"` is false, one or more required Environment Variables are missing in Vercel.
+
 ---
 
 ## Option 4: Self-Hosted VPS (DigitalOcean, Linode, AWS)

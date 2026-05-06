@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const nodemailer = require("nodemailer");
 
 function getEnv(name) {
@@ -67,7 +69,7 @@ function createTransporter() {
   const pass = getEnv("SMTP_PASS");
 
   if (!host || !user || !pass) {
-    throw new Error("Missing SMTP configuration.");
+    throw new Error("Missing SMTP configuration: SMTP_HOST, SMTP_USER, and SMTP_PASS are required.");
   }
 
   return nodemailer.createTransport({
@@ -81,24 +83,70 @@ function createTransporter() {
   });
 }
 
+function getConfigStatus() {
+  return {
+    SMTP_HOST: Boolean(getEnv("SMTP_HOST")),
+    SMTP_PORT: Boolean(process.env.SMTP_PORT),
+    SMTP_SECURE: Boolean(process.env.SMTP_SECURE),
+    SMTP_USER: Boolean(getEnv("SMTP_USER")),
+    SMTP_PASS: Boolean(getEnv("SMTP_PASS")),
+    CONTACT_TO_EMAIL: Boolean(getEnv("CONTACT_TO_EMAIL")),
+    CONTACT_FROM_EMAIL: Boolean(getEnv("CONTACT_FROM_EMAIL")),
+    CONTACT_FROM_NAME: Boolean(getEnv("CONTACT_FROM_NAME")),
+  };
+}
+
+function hasRequiredConfig(configStatus) {
+  return (
+    configStatus.SMTP_HOST &&
+    configStatus.SMTP_USER &&
+    configStatus.SMTP_PASS &&
+    configStatus.CONTACT_TO_EMAIL
+  );
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
 
-  if (req.method === "OPTIONS") {
+  const method = String(req.method || "").toUpperCase();
+
+  if (method === "OPTIONS") {
     res.status(204).end();
     return;
   }
 
-  if (req.method !== "POST") {
+  if (method === "GET") {
+    const configStatus = getConfigStatus();
+
+    res.status(200).json({
+      status: "ok",
+      method: method,
+      configured: hasRequiredConfig(configStatus),
+      config: configStatus,
+    });
+    return;
+  }
+
+  if (method !== "POST") {
+    res.setHeader("Allow", "GET, POST, OPTIONS");
     res.status(405).json({
-      message: "Method not allowed.",
+      message: "Method " + (method || "UNKNOWN") + " not allowed.",
     });
     return;
   }
 
   try {
+    const configStatus = getConfigStatus();
+    if (!hasRequiredConfig(configStatus)) {
+      res.status(500).json({
+        message: "Contact email server is not configured in Vercel.",
+        config: configStatus,
+      });
+      return;
+    }
+
     const body = await readBody(req);
     const source = String(body.source || "contact").trim().toLowerCase();
     const fullName = String(body.fullName || "").trim();
@@ -128,7 +176,7 @@ module.exports = async function handler(req, res) {
     const contactFromName = getEnv("CONTACT_FROM_NAME") || "Website Contact";
 
     if (!contactToEmail || !contactFromEmail) {
-      throw new Error("Missing contact email configuration.");
+      throw new Error("Missing contact email configuration: CONTACT_TO_EMAIL is required.");
     }
 
     const mailSubject = isChatSubmission
