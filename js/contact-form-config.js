@@ -5,6 +5,7 @@
 
   window.CONTACT_FORM_CONFIG = {
     apiEndpoint: window.CONTACT_FORM_API_ENDPOINT || defaultApiEndpoint,
+    whatsappNumber: window.CONTACT_FORM_WHATSAPP_NUMBER || "+18179322649",
     successMessage: "Thanks! Your message has been sent successfully.",
     errorMessage:
       "Your message could not be sent right now. Please try again in a moment.",

@@ -289,6 +289,7 @@
   var chatSendButton = $("#chatSendBtn");
   var chatMessagesContainer = $("#chatMessages");
   var chatStatus = $("#chatStatus");
+  var chatBadge = $("#chatBadge");
 
   if (!chatWidget.length || !chatToggle.length || !chatInput.length || !chatSendButton.length) {
     return;
@@ -297,19 +298,80 @@
   // Chat State
   var conversationHistory = [];
   var isLoading = false;
+  var unreadCount = 1;
 
   // Bot responses for quick replies
   var botResponses = {
     "house-hunt": "Great! I can help you find the perfect home. Are you looking for a residential property, investment property, or something specific?",
-    "selling": "Selling? I'd be happy to help! What type of property are you looking to sell, and what's your timeline?",
-    "mortgage": "Excellent question! As a Mortgage Loan Officer, I offer competitive rates and flexible financing options. Would you like to discuss your financing needs?"
+    "selling": "Selling? I'd be happy to help. What type of property are you looking to sell, and what's your timeline?",
+    "mortgage": "Excellent question. As a Mortgage Loan Officer, I can help with loan options, rates, and pre-approval guidance. What would you like to know first?"
   };
 
-  function getApiEndpoint() {
-    if (window.CONTACT_FORM_CONFIG && window.CONTACT_FORM_CONFIG.apiEndpoint) {
-      return $.trim(window.CONTACT_FORM_CONFIG.apiEndpoint);
+  function getWhatsAppNumber() {
+    if (window.CONTACT_FORM_CONFIG && window.CONTACT_FORM_CONFIG.whatsappNumber) {
+      return String(window.CONTACT_FORM_CONFIG.whatsappNumber).replace(/\D/g, "");
     }
-    return "/api/contact";
+    return "+18179322649";
+  }
+
+  function buildWhatsAppMessage(message) {
+    var intro = "Hi Sameer, I am contacting you from your website.";
+    return intro + "\n\nMessage: " + message;
+  }
+
+  function getWhatsAppUrl(message) {
+    return "https://wa.me/" + getWhatsAppNumber() + "?text=" + encodeURIComponent(buildWhatsAppMessage(message));
+  }
+
+  function updateUnreadBadge(count) {
+    unreadCount = count;
+    if (!chatBadge.length) {
+      return;
+    }
+
+    if (unreadCount > 0 && !chatWidget.is(":visible")) {
+      chatBadge.text(unreadCount > 9 ? "9+" : String(unreadCount)).show();
+    } else {
+      chatBadge.hide();
+    }
+  }
+
+  function notifyVisitor(title, body) {
+    if (!("Notification" in window)) {
+      return;
+    }
+
+    if (Notification.permission === "granted") {
+      new Notification(title, { body: body });
+    } else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then(function(permission) {
+        if (permission === "granted") {
+          new Notification(title, { body: body });
+        }
+      });
+    }
+  }
+
+  function getSmartReply(message, quickReplyValue) {
+    var normalized = message.toLowerCase();
+
+    if (quickReplyValue && botResponses[quickReplyValue]) {
+      return botResponses[quickReplyValue];
+    }
+
+    if (normalized.indexOf("mortgage") !== -1 || normalized.indexOf("loan") !== -1 || normalized.indexOf("rate") !== -1) {
+      return botResponses.mortgage;
+    }
+
+    if (normalized.indexOf("sell") !== -1 || normalized.indexOf("selling") !== -1) {
+      return botResponses.selling;
+    }
+
+    if (normalized.indexOf("buy") !== -1 || normalized.indexOf("home") !== -1 || normalized.indexOf("house") !== -1 || normalized.indexOf("property") !== -1) {
+      return botResponses["house-hunt"];
+    }
+
+    return "Thanks for your message. Please share your name, preferred location, budget, and the best time to contact you, and I'll follow up as soon as possible.";
   }
 
   function escapeHtml(value) {
@@ -346,6 +408,12 @@
       });
       messageHtml += '</div>';
     }
+
+    if (options.actionUrl && options.actionLabel) {
+      messageHtml += '<div class="quick-replies">';
+      messageHtml += '<a class="quick-reply-btn chat-action-link" href="' + escapeHtml(options.actionUrl) + '" target="_blank" rel="noopener">' + escapeHtml(options.actionLabel) + '</a>';
+      messageHtml += '</div>';
+    }
     
     messageHtml += '</div>';
     messageHtml += '<span class="message-time">' + messageTime + '</span>';
@@ -355,6 +423,11 @@
     scrollToBottom();
     
     conversationHistory.push({ type: type, message: text, time: messageTime });
+
+    if (type !== "user" && !chatWidget.is(":visible")) {
+      updateUnreadBadge(unreadCount + 1);
+      notifyVisitor("New website chat message", text);
+    }
   }
 
   function scrollToBottom() {
@@ -374,8 +447,8 @@
     chatMessagesContainer.find('.typing-indicator').remove();
   }
 
-  function sendMessage() {
-    var message = $.trim(chatInput.val());
+  function sendMessage(messageOverride, quickReplyValue) {
+    var message = $.trim(messageOverride || chatInput.val());
 
     if (!message) {
       showChatStatus("Please enter a message.", 2000);
@@ -392,45 +465,23 @@
     isLoading = true;
     chatSendButton.prop('disabled', true);
     chatInput.prop('disabled', true);
+    showChatStatus("Message added to chat.", 2500);
 
     // Show typing indicator
     showTypingIndicator();
 
-    // Simulate bot response (can be replaced with API call)
     setTimeout(function() {
       removeTypingIndicator();
-      
-      // Send to backend
-      $.ajax({
-        url: getApiEndpoint(),
-        method: "POST",
-        data: JSON.stringify({
-          source: "chat",
-          message: message,
-          conversationHistory: conversationHistory
-        }),
-        contentType: "application/json; charset=UTF-8",
-        dataType: "json"
-      })
-        .done(function(response) {
-          var botMessage = (response && response.message) || "Thanks for reaching out! We'll get back to you soon.";
-          addMessageToChat(botMessage, 'bot');
-          showChatStatus("Message received!", 2500);
-        })
-        .fail(function(xhr) {
-          var errorMsg = "I'm having trouble connecting right now. Please try again or contact us at +1 817-932-2649.";
-          if (xhr && xhr.status === 0) {
-            errorMsg = "Could not reach the server. Please ensure the server is running.";
-          }
-          addMessageToChat(errorMsg, 'bot');
-          showChatStatus("Error sending message. Please try again.", 3000);
-        })
-        .always(function() {
-          isLoading = false;
-          chatSendButton.prop('disabled', false);
-          chatInput.prop('disabled', false);
-          chatInput.focus();
-        });
+      var botMessage = getSmartReply(message, quickReplyValue) + " To receive this on WhatsApp, please tap the button below and press Send in WhatsApp.";
+      addMessageToChat(botMessage, 'bot', {
+        actionUrl: getWhatsAppUrl(message),
+        actionLabel: "Send to WhatsApp"
+      });
+      showChatStatus("Tap Send to WhatsApp to deliver it.", 3000);
+      isLoading = false;
+      chatSendButton.prop('disabled', false);
+      chatInput.prop('disabled', false);
+      chatInput.focus();
     }, 800);
 
     return false;
@@ -444,6 +495,7 @@
   chatToggle.on('click', function() {
     chatWidget.fadeToggle();
     if (chatWidget.is(':visible')) {
+      updateUnreadBadge(0);
       chatInput.focus();
     }
   });
@@ -465,30 +517,8 @@
   $(document).on('click', '.quick-reply-btn', function() {
     var replyValue = $(this).data('reply');
     var replyText = $(this).text();
-    
-    // Set input and send
-    chatInput.val(replyText);
-    
-    // Add user message
-    addMessageToChat(replyText, 'user');
-    chatInput.val('').focus();
-    isLoading = true;
-    chatSendButton.prop('disabled', true);
-    chatInput.prop('disabled', true);
-
-    // Show typing indicator
-    showTypingIndicator();
-
-    // Get bot response
-    setTimeout(function() {
-      removeTypingIndicator();
-      
-      var botResponse = botResponses[replyValue] || "Thanks for your interest! How can I help you further?";
-      addMessageToChat(botResponse, 'bot');
-      
-      isLoading = false;
-      chatSendButton.prop('disabled', false);
-      chatInput.prop('disabled', false);
-    }, 600);
+    sendMessage(replyText, replyValue);
   });
+
+  updateUnreadBadge(unreadCount);
 })(jQuery);
